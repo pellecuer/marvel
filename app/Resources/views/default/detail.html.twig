@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<div class="bg-danger py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-2">
+                <p><img class = "img-responsive" src="{{ character.thumbnail.path ~'.jpg' }}" height="auto" width="100%"></p>
+                <p>Nom : {{ character.name }}</p>
+                <p>Description : {{ character.description }}</p>
+                <p>Nombre de comics : {{ nbComics }}</p>
+                <ul>
+                    {% for comic in comics %}
+                        <li>
+                            <p> {{ comics.0 }} </p>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <p>Nombre de Series : {{ nbSeries }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+

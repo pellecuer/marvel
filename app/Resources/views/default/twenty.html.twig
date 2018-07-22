@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+<div class="bg-grey py-5">
+    <div class="container mt-4 pb-5">
+        <div class="col">
+            {% for character in characters %}
+                <div class="card mb-4">
+                    <img class ="card-img" src="{{ character.thumbnail.path ~'.jpg' }}" height="auto" width="100%" alt="Card image">
+                    <a class="h3 text-uppercase text-dark text-center" href="{{ path('details', {'id':character.id}) }}">
+                        {{ character.name }}
+                   </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
