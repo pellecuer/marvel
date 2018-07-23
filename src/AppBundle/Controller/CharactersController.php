@@ -50,7 +50,7 @@ class CharactersController extends Controller
         $characterDecode = json_decode($body,true);
         $characters = $characterDecode['data']['results'];
 
-        //dump($characters[0]['thumbnail']);die;
+            //dump($characters);die;
 
         return $this->render('default/indexhtml.twig', [
             'characters' => $characters,
@@ -75,10 +75,10 @@ class CharactersController extends Controller
         $timestamp ='1';
         $hash = md5($timestamp . $privateKey . $publicKey);
 
-                $response = $client->request('GET', $id, ['query' => [
-                'ts' => $timestamp,
-                'apikey' => $publicKey,
-                'hash' => $hash,
+        $response = $client->request('GET', $id, ['query' => [
+            'ts' => $timestamp,
+            'apikey' => $publicKey,
+            'hash' => $hash,
             ]]
         );
 
@@ -88,7 +88,6 @@ class CharactersController extends Controller
 
         $nbComics = count($character['comics']['items']);
         $nbSeries = count($character['series']['items']);
-        //dump($character['comics']['items'][3]['name']);die;
         $comics=[];
         if ($nbComics) {
             for ($i=0; $i<3; $i++) {
@@ -185,5 +184,61 @@ class CharactersController extends Controller
         return $this->redirectToRoute('details', array (
             'id' => $id,
             ));
+    }
+
+
+    /**
+     * @Route("/favorites", name="favoriteAll")
+     */
+    public function favoriteAllAction()
+    {
+        //check all in favorite entity
+        $allFavoritesCharacters = $this->getDoctrine()
+            ->getRepository(Favorite::class)
+            ->findBy(
+                ['isSet' => true]
+            );
+            //dump($allFavoritesCharacters);die;
+
+
+        for ($i=0; $i<count($allFavoritesCharacters); $i++) {
+
+            $favoriteId = $allFavoritesCharacters[$i]->getcharactherId();
+            settype ($favoriteId,  "string");
+
+
+
+            // Create a Guzzle client with a base URI
+            $client = new Client([
+                // Base URI is used with relative requests
+                'base_uri' => 'https://gateway.marvel.com:443/v1/public/characters/',
+                // You can set any number of default request options.
+
+            ]);
+
+            $publicKey = 'a6e6494bfd9e6eb8e4dc0f2545116477';
+            $privateKey = '6dfcd0b9f350b569c6c059a2a5ba659805aeabd8';
+            $timestamp ='1';
+            $hash = md5($timestamp . $privateKey . $publicKey);
+
+            $response = $client->request('GET', $favoriteId, ['query' => [
+                    'ts' => $timestamp,
+                    'apikey' => $publicKey,
+                    'hash' => $hash,
+                ]]
+            );
+
+
+            $body = $response->getBody()->getContents();
+            $characterDecode = json_decode($body,true);
+
+            $character = $characterDecode['data']['results'][0];
+
+
+        }
+
+        return $this->render('default/favorite.html.twig', [
+            'allFavoritesCharacters' => $allFavoritesCharacters
+        ]);
     }
 }
