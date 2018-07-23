@@ -21,8 +21,8 @@ https://developer.marvel.com/docs
 https://developer.marvel.com/documentation/authorization
 4/Set Controllers
 Controller twentyAction :
+
 Display 20 characters, from index100, sorted by name.
 ControllerGetdetailAction :
 Display characters’ detail. 
 Add or delete favorite’ characters
-
