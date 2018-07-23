@@ -6,18 +6,54 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 offset-2">
-                <p><img class = "img-responsive" src="{{ character.thumbnail.path ~'.jpg' }}" height="auto" width="100%"></p>
-                <p>Nom : {{ character.name }}</p>
-                <p>Description : {{ character.description }}</p>
-                <p>Nombre de comics : {{ nbComics }}</p>
-                <ul>
-                    {% for comic in comics %}
-                        <li>
-                            <p> {{ comics.0 }} </p>
-                        </li>
-                    {% endfor %}
-                </ul>
-                <p>Nombre de Series : {{ nbSeries }}</p>
+                <div class="card">
+                    <img class = "card-img-top" src="{{ character.thumbnail.path ~'.jpg' }}" height="auto" width="100%" alt="Card image cap">
+                    <div class="card-header h1"> {{ character.name }}</div>
+                    <div class="card-body">
+                        <div class="card-text h3" >Description : </div>
+                        <div class="card-text">{{ character.description }} </div>
+                        <div class="card-text">Nombre de comics : {{ nbComics }}</div>
+                        <div class="card-text">3 premiers comics : </div>
+                        <ul class="ml-5">
+                            {% if comics %}
+                                {% if comics.0 %}
+                                    <li> {{ comics.0 }} </li>
+                                {% endif %}
+                                {% if comics.1 %}
+                                    <li> {{ comics.1 }} </li>
+                                {% endif %}
+                                {% if comics.2 %}
+                                    <li> {{ comics.2 }} </li>
+                                {% endif %}
+                            {% endif %}
+                        </ul>
+                        <p>Nombre de Series : {{ nbSeries }}</p>
+                    <div class="card-footer">
+                        <a href = "{{ path('favorite',  {'id':character.id} )}}">
+                                <div class="d-flex justify-content-around">
+                                {% if not heart %}
+                                    <div>
+                                        <span> Ajouter aux favoris </span>
+                                        <i class="far fa-heart"></i>
+                                    </div>
+                                    <div>
+                                        <a href="{{ path('index') }}">Retourner à la page d'accueil</a>
+                                    </div>
+                                {% else %}
+                                    <div>
+                                        <span> Supprimer des favoris </span>
+                                        <i class="fas fa-heart"></i>
+                                    </div>
+                                    <div>
+                                        <a href="{{ path('index') }}">Retourner à la page d'accueil</a>
+                                    </div>
+
+                                {% endif %}
+                            </div>
+                        </a>
+                    </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

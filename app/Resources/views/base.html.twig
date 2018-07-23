@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}BIENVENUE SUR MARVEL !{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}" />
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
@@ -17,15 +17,22 @@
     </head>
     <body>
         {% block loader %}
-            <div class=" h3 loaderText">Une seconde, la page finit de se charrger !</div>
             <div class="loader"></div>
             <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
             <script type="text/javascript">
                 $(window).load(function() {
                     $(".loader").fadeOut("1000");
-                    $(".loaderText").fadeOut("1000");
                 })
             </script>
+        {% endblock %}
+        {% block flashMessage %}
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="flash-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
         {% endblock %}
         {% block body %}{% endblock %}
 
